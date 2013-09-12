@@ -1,0 +1,7 @@
+development:
+  adapter: mysql
+  user: root
+  password: pass
+  database: soundcloud
+  host: localhost
+  logger: false
