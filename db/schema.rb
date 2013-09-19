@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131207050927) do
+ActiveRecord::Schema.define(:version => 20131201045813) do
 
   create_table "comments", :force => true do |t|
     t.date     "comment_created_at"
@@ -93,40 +93,6 @@ ActiveRecord::Schema.define(:version => 20131207050927) do
   add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
   add_index "relationships", ["follower_id", "followed_id"], :name => "index_relationships_on_follower_id_and_followed_id", :unique => true
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
-
-  create_table "testavectors", :force => true do |t|
-    t.integer  "attempt"
-    t.integer  "user_id"
-    t.string   "word"
-    t.float    "tf_idf"
-    t.string   "prior_tfidf"
-    t.string   "status"
-    t.text     "message"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "testavectors", ["attempt"], :name => "index_testavectors_on_attempt"
-  add_index "testavectors", ["status"], :name => "index_testavectors_on_status"
-  add_index "testavectors", ["user_id"], :name => "index_testavectors_on_user_id"
-  add_index "testavectors", ["word"], :name => "index_testavectors_on_word"
-
-  create_table "testbvectors", :force => true do |t|
-    t.integer  "attempt"
-    t.integer  "user_id"
-    t.string   "word"
-    t.float    "tf_idf"
-    t.string   "prior_tfidf"
-    t.string   "status"
-    t.text     "message"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "testbvectors", ["attempt"], :name => "index_testbvectors_on_attempt"
-  add_index "testbvectors", ["status"], :name => "index_testbvectors_on_status"
-  add_index "testbvectors", ["user_id"], :name => "index_testbvectors_on_user_id"
-  add_index "testbvectors", ["word"], :name => "index_testbvectors_on_word"
 
   create_table "tmp", :force => true do |t|
     t.integer  "attempt"

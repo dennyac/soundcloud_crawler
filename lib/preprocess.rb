@@ -1,7 +1,7 @@
 
 class Preprocess
 
-	def build_corpus(attmpt)
+	def self.build_corpus(attmpt)
 		mapping = Hash.new(0)
 		Track.where("genre is not NULL and genre !=''").select("genre").each do |u|
 			u.genre.split(/\W+/).each do |w|
@@ -15,7 +15,7 @@ class Preprocess
 		end
 	end
 
-	def create_track_vector(attmpt)
+	def self.create_track_vector(attmpt)
 		mapping = Hash.new(0)
 		 Track.where("genre is not NULL and genre !=''").select("id,genre").each do |u|
 			u.genre.split(/\W+/).each do |w|
@@ -29,7 +29,7 @@ class Preprocess
 		end
 	end
 
-	def calculate_tfidf
+	def self.calculate_tfidf
 		t_tracks=Vector.distinct.count(:track_id) 
 		Vector.all.find_each do |v|
 			n_tracks=Vector.where(word: v.word).count
@@ -40,7 +40,7 @@ class Preprocess
 		end
 	end
 
-	def batch_calculate_tfidf
+	def self.batch_calculate_tfidf
 		t_tracks=Vector.distinct.count(:track_id)
 		Vector.where("status = 'pending'").find_in_batches do |b|
 			b.each do |v|
@@ -54,7 +54,7 @@ class Preprocess
 		end
 	end
 
-	def create_comment_vector(status,attmpt)
+	def self.create_comment_vector(status,attmpt)
 		Visited.where("status in ('#{status}')").find_in_batches do |b|
 			b.each do |v|
 				u=User.find(v.id)
@@ -66,7 +66,7 @@ class Preprocess
 		end
 	end
 
-	def create_favorite_vector(status,attmpt)
+	def self.create_favorite_vector(status,attmpt)
 		Visited.where("status in ('#{status}')").find_in_batches do |b|
 			b.each do |v|
 				u=User.find(v.id)
@@ -78,7 +78,7 @@ class Preprocess
 		end
 	end
 
-	def create_user_vector(status,attmpt)
+	def self.create_user_vector(status,attmpt)
 		Visited.where("status in ('#{status}')").each do |v|
 			u=User.find(v.id)
 			u.vectors.group('word').sum('tf_idf').each do |w,t|
@@ -90,7 +90,7 @@ class Preprocess
 		end
 	end
 
-	def create_user_vector_wvrn(status,rounds)
+	def self.create_user_vector_wvrn(status,rounds)
 		rounds.times do 
 			Visited.where("status = '#{status}'").find_in_batches(batch_size: 200) do |b|
 				b.each do |v|
